@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using TicketSysSultan.Models;
 
-namespace TicketSysSultan.Data
+namespace test.Data
 {
     public class ApplicationDbContext : IdentityDbContext
     {
@@ -13,6 +12,5 @@ namespace TicketSysSultan.Data
             : base(options)
         {
         }
-        public DbSet<TicketSysSultan.Models.Ticket> Ticket { get; set; }
     }
 }
