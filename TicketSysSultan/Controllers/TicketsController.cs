@@ -54,10 +54,12 @@ namespace TicketSysSultan.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,ExtNum,Issue,Solution,CreateDateTime,CloseDateTime,Closed")] Ticket ticket)
+        public async Task<IActionResult> Create([Bind("Name,ExtNum,Issue")] Ticket ticket)
         {
             if (ModelState.IsValid)
             {
+                ticket.CreateDateTime = DateTime.Now;
+                ticket.Closed = false;
                 _context.Add(ticket);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -86,8 +88,16 @@ namespace TicketSysSultan.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,ExtNum,Issue,Solution,CreateDateTime,CloseDateTime,Closed")] Ticket ticket)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Solution,Closed")] Ticket ticket)
         {
+            var orgTicket = _context.Ticket.Find(ticket.Id);
+            //_context.Entry(orgTicket).State = EntityState.Detached;
+
+            ticket.Issue = orgTicket.Issue;
+            ticket.Name = orgTicket.Name;
+            ticket.CreateDateTime = orgTicket.CreateDateTime;
+            ticket.ExtNum = orgTicket.ExtNum;
+
             if (id != ticket.Id)
             {
                 return NotFound();

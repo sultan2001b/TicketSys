@@ -15,39 +15,45 @@
             <input type="hidden" asp-for="Id" />
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
+                <input asp-for="Name" class="form-control" readonly />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="ExtNum" class="control-label"></label>
-                <input asp-for="ExtNum" class="form-control" />
+                <input asp-for="ExtNum" class="form-control" readonly />
                 <span asp-validation-for="ExtNum" class="text-danger"></span>
             </div>
-            <div class="form-group"> 
+            <div class="form-group">
                 <label asp-for="Issue" class="control-label"></label>
-                <input asp-for="Issue" class="form-control" />
+                <textarea class="form-control" readonly>
+@Model.Issue
+</textarea>
                 <span asp-validation-for="Issue" class="text-danger"></span>
+                @*<textarea asp-for="Issue" class="form-control" readonly />*@
             </div>
             <div class="form-group">
                 <label asp-for="Solution" class="control-label"></label>
-                <input asp-for="Solution" class="form-control" />
+                <textarea name="Solution" class="form-control" style="height: 120px;">
+@Model.Solution
+</textarea>
                 <span asp-validation-for="Solution" class="text-danger"></span>
+                @*<textarea asp-for="Solution" class="form-control" />*@
             </div>
-            <div class="form-group">
-                <label asp-for="CreateDateTime" class="control-label"></label>
-                <input asp-for="CreateDateTime" class="form-control" />
-                <span asp-validation-for="CreateDateTime" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CloseDateTime" class="control-label"></label>
-                <input asp-for="CloseDateTime" class="form-control" />
-                <span asp-validation-for="CloseDateTime" class="text-danger"></span>
-            </div>
+            @*<div class="form-group">
+                    <label asp-for="CreateDateTime" class="control-label"></label>
+                    <input asp-for="CreateDateTime" class="form-control" />
+                    <span asp-validation-for="CreateDateTime" class="text-danger"></span>
+                </div>*@
+            @*<div class="form-group">
+                    <label asp-for="CloseDateTime" class="control-label"></label>
+                    <input asp-for="CloseDateTime" class="form-control" />
+                    <span asp-validation-for="CloseDateTime" class="text-danger"></span>
+                </div>*@
             <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Closed" /> @Html.DisplayNameFor(model => model.Closed)
-                </label>
-            </div>
+                    <label class="form-check-label">
+                        <input class="form-check-input" asp-for="Closed" /> @Html.DisplayNameFor(model => model.Closed)
+                    </label>
+                </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
