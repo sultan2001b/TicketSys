@@ -18,7 +18,7 @@ namespace TicketSysSultan.Data.Migrations
                     ConcurrencyStamp = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
-                {
+                { 
                     table.PrimaryKey("PK_AspNetRoles", x => x.Id);
                 });
 

@@ -12,8 +12,8 @@ namespace TicketSysSultan.Models
         public string ExtNum { get; set; }
         public string Issue { get; set; }
         public string Solution { get; set; }
-        public DateTime CreateDateTime { get; set; }
+        public DateTime CreateDateTime { get; set; } 
         public DateTime? CloseDateTime { get; set; }
-        public bool Closed { get; set; }
+        public bool Closed { get; set; } 
     }
 }

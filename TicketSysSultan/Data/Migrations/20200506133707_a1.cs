@@ -17,7 +17,7 @@ namespace TicketSysSultan.Data.Migrations
                     ExtNum = table.Column<string>(nullable: true),
                     Issue = table.Column<string>(nullable: true),
                     Solution = table.Column<string>(nullable: true),
-                    CreateDateTime = table.Column<DateTime>(nullable: false),
+                    CreateDateTime = table.Column<DateTime>(nullable: false), 
                     CloseDateTime = table.Column<DateTime>(nullable: true),
                     Closed = table.Column<bool>(nullable: false)
                 },
