@@ -14,6 +14,8 @@ namespace TicketSysSultan.Models
         public string Solution { get; set; }
         public DateTime CreateDateTime { get; set; } 
         public DateTime? CloseDateTime { get; set; }
-        public bool Closed { get; set; } 
+        public bool Closed { get; set; }
+        public int? MemberId { get; set; }
+        public Member Member { get; set; }
     }
 }

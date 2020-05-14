@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -20,29 +21,12 @@ namespace TicketSysSultan.Controllers
         }
 
         // GET: Tickets
+        [Authorize]
         public async Task<IActionResult> Index()
         {
             return View(await _context.Ticket.ToListAsync());
         }
-
-        // GET: Tickets/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var ticket = await _context.Ticket
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (ticket == null)
-            {
-                return NotFound();
-            }
-
-            return View(ticket);
-        }
-
+              
         // GET: Tickets/Create
         public IActionResult Create()
         {
@@ -68,6 +52,7 @@ namespace TicketSysSultan.Controllers
         }
 
         // GET: Tickets/Edit/5
+        [Authorize]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -83,22 +68,23 @@ namespace TicketSysSultan.Controllers
             return View(ticket);
         }
 
+       
         // POST: Tickets/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Solution,Closed")] Ticket ticket)
         {
             var orgTicket = _context.Ticket.Find(ticket.Id);
-            //_context.Entry(orgTicket).State = EntityState.Detached;
 
-            ticket.Issue = orgTicket.Issue;
-            ticket.Name = orgTicket.Name;
-            ticket.CreateDateTime = orgTicket.CreateDateTime;
-            ticket.ExtNum = orgTicket.ExtNum;
+            _context.Entry(ticket).State = EntityState.Detached;
 
-            if (id != ticket.Id)
+            orgTicket.Solution = ticket.Solution;
+            orgTicket.Closed = ticket.Closed;
+
+            if (id != orgTicket.Id)
             {
                 return NotFound();
             }
@@ -107,12 +93,12 @@ namespace TicketSysSultan.Controllers
             {
                 try
                 {
-                    _context.Update(ticket);
+                    _context.Update(orgTicket);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!TicketExists(ticket.Id))
+                    if (!TicketExists(orgTicket.Id))
                     {
                         return NotFound();
                     }
@@ -127,33 +113,33 @@ namespace TicketSysSultan.Controllers
         }
 
         // GET: Tickets/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+        //public async Task<IActionResult> Delete(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            var ticket = await _context.Ticket
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (ticket == null)
-            {
-                return NotFound();
-            }
+        //    var ticket = await _context.Ticket
+        //        .FirstOrDefaultAsync(m => m.Id == id);
+        //    if (ticket == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            return View(ticket);
-        }
+        //    return View(ticket);
+        //}
 
         // POST: Tickets/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var ticket = await _context.Ticket.FindAsync(id);
-            _context.Ticket.Remove(ticket);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
+        //[HttpPost, ActionName("Delete")]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> DeleteConfirmed(int id)
+        //{
+        //    var ticket = await _context.Ticket.FindAsync(id);
+        //    _context.Ticket.Remove(ticket);
+        //    await _context.SaveChangesAsync();
+        //    return RedirectToAction(nameof(Index));
+        //}
 
         private bool TicketExists(int id)
         {

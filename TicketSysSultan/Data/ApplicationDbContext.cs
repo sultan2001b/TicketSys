@@ -14,5 +14,6 @@ namespace TicketSysSultan.Data
         {
         }
         public DbSet<TicketSysSultan.Models.Ticket> Ticket { get; set; }
+        public DbSet<TicketSysSultan.Models.Member> Member { get; set; }
     }
 }
