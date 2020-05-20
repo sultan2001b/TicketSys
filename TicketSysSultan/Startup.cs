@@ -41,7 +41,7 @@ namespace TicketSysSultan
                 options.Password.RequireLowercase = false;
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequireUppercase = false;
-                options.Password.RequiredLength = 0;
+                options.Password.RequiredLength = 1;
                 options.Password.RequiredUniqueChars = 1;
 
                 // Lockout settings.
@@ -76,6 +76,7 @@ namespace TicketSysSultan
             app.UseStaticFiles();
 
             app.UseRouting();
+
 
             app.UseAuthentication();
             app.UseAuthorization();

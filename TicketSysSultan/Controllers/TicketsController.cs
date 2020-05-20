@@ -65,6 +65,14 @@ namespace TicketSysSultan.Controllers
             {
                 return NotFound();
             }
+            var currentMember = _context.Member.FirstOrDefault(x => x.Email == User.Identity.Name);
+            if (currentMember.Type ==  MemberTypeEnum.Admin)    
+            {
+                var ticketMemberViewModel = new TicketMemberViewModel();
+                ticketMemberViewModel.Ticket = ticket;
+                ticketMemberViewModel.MembersSelectList = new SelectList(_context.Member, "Id", "Email");
+                return View("EditAdmin", ticketMemberViewModel);//
+            }
             return View(ticket);
         }
 
@@ -110,6 +118,45 @@ namespace TicketSysSultan.Controllers
                 return RedirectToAction(nameof(Index)); 
             }
             return View(ticket);
+        }
+
+        public async Task<IActionResult> EditAdmin(int id, TicketMemberViewModel tmvm)
+        {
+            var orgTicket = _context.Ticket.Find(tmvm.Ticket.Id);
+
+            _context.Entry(tmvm.Ticket).State = EntityState.Detached;
+
+            orgTicket.Solution = tmvm.Ticket.Solution;
+            orgTicket.Closed = tmvm.Ticket.Closed;
+            orgTicket.MemberId = tmvm.Ticket.MemberId;
+
+
+            if (id != orgTicket.Id)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(orgTicket);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!TicketExists(orgTicket.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return View(orgTicket);
         }
 
         // GET: Tickets/Delete/5
